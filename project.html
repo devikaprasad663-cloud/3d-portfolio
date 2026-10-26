@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101525">
+  <title>Day to Live | Devika Prasad</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="project-container">
+    <a class="back-link" href="index.html">← Back to 3D portfolio</a>
+    <p class="project-kicker">A LITTLE PERSPECTIVE TOOL</p>
+    <h1 class="main-heading">DAY TO LIVE</h1>
+    <p class="prompt-para">Enter your date of birth to estimate how many days you have lived.</p>
+    <label class="date-label" for="dob_input">Date of birth</label>
+    <input type="date" class="date_input" id="dob_input" required>
+    <button class="fetch_result" id="calculate-button" type="button">Calculate my days</button>
+    <div class="result-text" id="result" aria-live="polite"></div>
+    <p class="small-note">An estimate based on calendar days. Every day is a new beginning.</p>
+  </main>
+  <script>
+    function calculateDate() {
+      const input = document.getElementById('dob_input');
+      const result = document.getElementById('result');
+      if (!input.value) {
+        result.textContent = 'Please select your date of birth.';
+        return;
+      }
+      const parts = input.value.split('-').map(Number);
+      const birthDate = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+      const now = new Date();
+      const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+      if (birthDate > today) {
+        result.textContent = 'Please choose a date that is not in the future.';
+        return;
+      }
+      const days = Math.floor((today - birthDate) / 86400000);
+      result.textContent = 'You have lived for approximately ' + days.toLocaleString() + ' days!';
+    }
+    document.getElementById('dob_input').max = new Date().toISOString().slice(0, 10);
+    document.getElementById('calculate-button').addEventListener('click', calculateDate);
+  </script>
+</body>
+</html>
